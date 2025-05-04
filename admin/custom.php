@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../assets/admin/css/reset.css" />
     <link rel="stylesheet" href="../assets/admin/css/style.css" />
     <link rel="stylesheet" href="../assets/admin/css/custom.css" />
+    <link rel="stylesheet" href="../assets/admin/css/total_section.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Thêm sửa xóa</title>
@@ -62,39 +63,36 @@
 
         <!-- main-content -->
         <div class="main-content" id="main-content">
-          <!-- total Doanh thu -->
-          <section class="total">
+          <section class="total aesthetic-info">
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng Doanh Thu</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Globe Icon" class="total__icon" />
+                <h5>Khám phá thế giới cùng chúng tôi!</h5>
               </div>
             </div>
 
-            <!-- total Khách hàng -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng khách hàng</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png" alt="Customer Icon" class="total__icon" />
+                <h5>Hơn 10,000 khách hàng hài lòng</h5>
               </div>
             </div>
 
-            <!-- total Đơn hàng -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng đơn hàng</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" alt="Order Icon" class="total__icon" />
+                <h5>Đặt tour dễ dàng, nhanh chóng</h5>
               </div>
             </div>
 
-            <!-- total địa điểm -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng địa điểm</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Map Icon" class="total__icon" />
+                <h5>Hơn 100+ địa điểm hấp dẫn</h5>
               </div>
             </div>
           </section>
+
           <script>
             $(document).ready(function () {
               // Add collapsed class to all menu headers initially
@@ -174,60 +172,61 @@
 
 
             <!-- Tours Grid -->
+            <?php
+            include "./connect.php";
+
+            $sql = "SELECT Detail.id, Detail.title, Detail.thumbnail, Detail.address, Category.name AS category_name
+                    FROM Detail
+                    JOIN Category ON Detail.category_id = Category.id
+                    WHERE Detail.deleted = 0";
+
+            $result = mysqli_query($conn, $sql);
+            ?>
+
             <div class="tours-grid" id="tours-container">
-              <!-- Sample tour cards (will be replaced with dynamic content) -->
-              <div class="tour-card">
-                <img
-                  src="./asset/image/tour_card1.jpg"
-                  alt="Ha Long Bay"
-                  class="tour-image"
-                />
+            <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+              <div class="tour-card" id="tour-<?= $row['id'] ?>">
+                <img src="../assets/admin/image/<?= htmlspecialchars($row['thumbnail']) ?>" alt="<?= htmlspecialchars($row['title']) ?>" class="tour-image" />
                 <div class="tour-info">
-                  <h3 class="tour-title">Ha Long Bay Tour</h3>
-                  <p class="tour-location">Quang Ninh, Vietnam</p>
-                  <p class="tour-price">2,500,000 VNĐ</p>
+                  <h3 class="tour-title"><?= htmlspecialchars($row['title']) ?></h3>
+                  <p class="tour-location"><?= htmlspecialchars($row['address']) ?></p>
                   <div class="tour-actions">
-                    <button class="btn btn-edit">Sửa</button>
-                    <button class="btn btn-danger">Xóa</button>
+                    <form method="POST" action="delete_detail.php" style="display:inline">
+                      <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                      <button type="button" class="btn btn-danger btn-delete" data-id="<?= $row['id'] ?>">Xóa</button>
+                    </form>
                   </div>
                 </div>
               </div>
+            <?php endwhile; ?>
 
-              <div class="tour-card">
-                <img
-                  src="./asset/image/tour_card2.jpg"
-                  alt="Hoi An"
-                  class="tour-image"
-                />
-                <div class="tour-info">
-                  <h3 class="tour-title">Hoi An Ancient Town</h3>
-                  <p class="tour-location">Quang Nam, Vietnam</p>
-                  <p class="tour-price">1,800,000 VNĐ</p>
-                  <div class="tour-actions">
-                    <button class="btn btn-edit">Sửa</button>
-                    <button class="btn btn-danger">Xóa</button>
-                  </div>
-                </div>
-              </div>
 
-              <div class="tour-card">
-                <img
-                  src="./asset/image/tour_card3.jpg"
-                  alt="Sapa"
-                  class="tour-image"
-                />
-                <div class="tour-info">
-                  <h3 class="tour-title">Sapa Trekking</h3>
-                  <p class="tour-location">Lao Cai, Vietnam</p>
-                  <p class="tour-price">3,200,000 VNĐ</p>
-                  <div class="tour-actions">
-                    <button class="btn btn-edit">Sửa</button>
-                    <button class="btn btn-danger">Xóa</button>
-                  </div>
-                </div>
-              </div>
             </div>
-
+            <script>
+            $(document).ready(function () {
+              $(".btn-delete").click(function () {
+                const tourId = $(this).data("id");
+                const confirmed = confirm("Bạn có chắc chắn muốn xóa?");
+                if (confirmed) {
+                  $.ajax({
+                    url: "delete_detail.php",
+                    type: "POST",
+                    data: { id: tourId },
+                    success: function (response) {
+                      if (response.trim() === "success") {
+                        $("#tour-" + tourId).remove();
+                      } else {
+                        alert("Xóa thất bại hoặc có lỗi xảy ra.");
+                      }
+                    },
+                    error: function () {
+                      alert("Lỗi kết nối server.");
+                    },
+                  });
+                }
+              });
+            });
+            </script>
           </section>
         </div>
       </div>

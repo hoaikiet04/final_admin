@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../assets/admin/css/reset.css" />
     <link rel="stylesheet" href="../assets/admin/css/style.css" />
     <link rel="stylesheet" href="../assets/admin/css/table.css" />
+    <link rel="stylesheet" href="../assets/admin/css/total_section.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Danh sách đại điểm</title>
@@ -75,36 +76,32 @@
 
         <!-- main-content -->
         <div class="main-content" id="main-content">
-          <!-- total Doanh thu -->
-          <section class="total">
+        <section class="total aesthetic-info">
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng Doanh Thu</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Globe Icon" class="total__icon" />
+                <h5>Khám phá thế giới cùng chúng tôi!</h5>
               </div>
             </div>
 
-            <!-- total Khách hàng -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng khách hàng</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png" alt="Customer Icon" class="total__icon" />
+                <h5>Hơn 10,000 khách hàng hài lòng</h5>
               </div>
             </div>
 
-            <!-- total Đơn hàng -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng đơn hàng</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" alt="Order Icon" class="total__icon" />
+                <h5>Đặt tour dễ dàng, nhanh chóng</h5>
               </div>
             </div>
 
-            <!-- total địa điểm -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng địa điểm</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Map Icon" class="total__icon" />
+                <h5>Hơn 100+ địa điểm hấp dẫn</h5>
               </div>
             </div>
           </section>

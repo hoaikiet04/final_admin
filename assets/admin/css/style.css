@@ -160,32 +160,6 @@ a {
   flex-wrap: wrap;
   gap: 20px;
 }
-.total__item {
-  flex: 1;
-  min-width: 20rem;
-}
-
-.total__card {
-  background-color: white;
-  padding: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  transition: transform 0.2s;
-}
-
-.total__card:hover {
-  transform: translateY(-5px);
-}
-
-.total__card h5 {
-  margin-bottom: 10px;
-}
-
-.total__card a {
-  color: #007bff;
-  text-decoration: none;
-}
 
 /* ================== banner image ==================*/
 .banner__image {

@@ -1,20 +1,3 @@
-<?php
-include "connect.php";
-
-// Xử lý trước khi gửi bất kỳ nội dung HTML nào
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_selected']) && !empty($_POST['selected_ids'])) {
-    $ids = implode(',', array_map('intval', $_POST['selected_ids']));
-    $delete_sql = "UPDATE User SET deleted = 1 WHERE id IN ($ids)";
-    
-    if (!mysqli_query($conn, $delete_sql)) {
-        echo "Lỗi truy vấn: " . mysqli_error($conn);
-        exit;
-    }
-
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -24,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_selected']) &&
     <link rel="stylesheet" href="../assets/admin/css/reset.css" />
     <link rel="stylesheet" href="../assets/admin/css/style.css" />
     <link rel="stylesheet" href="../assets/admin/css/table.css" />
+    <link rel="stylesheet" href="../assets/admin/css/total_section.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>123</title>
@@ -90,36 +74,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_selected']) &&
 
         <!-- main-content -->
         <div class="main-content" id="main-content">
-          <!-- total Doanh thu -->
-          <section class="total">
+        <section class="total aesthetic-info">
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng Doanh Thu</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Globe Icon" class="total__icon" />
+                <h5>Khám phá thế giới cùng chúng tôi!</h5>
               </div>
             </div>
 
-            <!-- total Khách hàng -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng khách hàng</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png" alt="Customer Icon" class="total__icon" />
+                <h5>Hơn 10,000 khách hàng hài lòng</h5>
               </div>
             </div>
 
-            <!-- total Đơn hàng -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng đơn hàng</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" alt="Order Icon" class="total__icon" />
+                <h5>Đặt tour dễ dàng, nhanh chóng</h5>
               </div>
             </div>
 
-            <!-- total địa điểm -->
             <div class="total__item">
               <div class="total__card">
-                <h5>Tổng địa điểm</h5>
-                <a href="#">Xem chi tiết</a>
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Map Icon" class="total__icon" />
+                <h5>Hơn 100+ địa điểm hấp dẫn</h5>
               </div>
             </div>
           </section>
@@ -128,36 +108,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_selected']) &&
           <section class="bookings-container">
 
           <?php
+            include "./connect.php";
             $sql = "SELECT * FROM User WHERE deleted = 0";
             $result = mysqli_query($conn, $sql);
           ?>
 
             <section class="bookings-container">
-              <form method="POST" action="">
-                <div class="bookings-header">
-                  <h2 class="bookings-title">Danh sách người dùng</h2>
-                  <div class="d-flex gap-10">
-                    <button type="submit" name="delete_selected" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa những người dùng đã chọn?');">
-                      Xóa đã chọn
-                    </button>
-                  </div>
-                </div>
+            <form id="delete-users-form">
+              <div class="bookings-header">
+                <h2 class="bookings-title">Danh sách người dùng</h2>
+              </div>
 
-                <table>
-                  <tr>
-                    <th><input type='checkbox' id='checkAll'></th>
-                    <th>STT</th>
-                    <th>Họ tên</th>
-                    <th>Email</th>
-                    <th>Số điện thoại</th>
-                    <th>Địa chỉ</th>
-                    <th>Mật khẩu</th>
-                  </tr>
+              <table>
+                <tr>
+                  <th>Xóa</th>
+                  <th>STT</th>
+                  <th>Họ tên</th>
+                  <th>Email</th>
+                  <th>Số điện thoại</th>
+                  <th>Địa chỉ</th>
+                  <th>Mật khẩu</th>
+                </tr>
                 <?php
                   $stt = 1;
                   while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>
-                            <td><input type='checkbox' name='selected_ids[]' value='" . $row['id'] . "'></td>
+                    echo "<tr id='user-{$row['id']}'>
+                            <td><button class='btn btn-danger btn-delete-user' data-id='{$row['id']}'>Xóa</button></td>
                             <td>" . $stt++ . "</td>
                             <td>" . htmlspecialchars($row['fullname']) . "</td>
                             <td>" . htmlspecialchars($row['email']) . "</td>
@@ -167,18 +143,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_selected']) &&
                           </tr>";
                   }
                 ?>
-                </table>
-              </form>
+              </table>
+            </form>
 
-              <script>
-                document.getElementById('checkAll').onclick = function () {
-                  var checkboxes = document.getElementsByName('selected_ids[]');
-                  for (var checkbox of checkboxes) {
-                    checkbox.checked = this.checked;
-                  }
-                };
-              </script>
+            <script>
+              $(document).on("click", ".btn-delete-user", function () {
+                const userId = $(this).data("id");
+                if (!confirm("Bạn có chắc chắn muốn xóa người dùng này?")) return;
 
+                $.ajax({
+                  url: "delete_user.php",
+                  method: "POST",
+                  data: { id: userId },
+                  success: function (res) {
+                    if (res.trim() === "success") {
+                      $("#user-" + userId).remove();
+                    } else {
+                      alert("Xóa thất bại.");
+                    }
+                  },
+                  error: function () {
+                    alert("Lỗi kết nối đến máy chủ.");
+                  },
+                });
+              });
+            </script>
 
           </section>
         </div>
