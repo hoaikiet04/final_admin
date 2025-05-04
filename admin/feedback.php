@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- link css -->
-    <link rel="stylesheet" href="./asset/css/reset.css" />
-    <link rel="stylesheet" href="./asset/css/style.css" />
+    <link rel="stylesheet" href="../assets/admin/css/reset.css" />
+    <link rel="stylesheet" href="../assets/admin/css/style.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>ADMIN</title>
+    <title>Feedback</title>
   </head>
   <body>
     <navbar class="navbar">
-      <h1><a href="./index.html">Danh sách đặt tour</a></h1>
+      <h1><a href="./index.php">Phản hồi</a></h1>
       <div class="search-bar">
         <input type="text" placeholder="Tìm kiếm cho ..." />
         <button>
@@ -39,8 +39,8 @@
           <section>
             <h5>Cập nhật tour</h5>
             <div class="menu-items">
-              <a href="./custom.html" data-page="custom.html">Chỉnh sửa tour</a>
-              <a href="./category.html" data-page="category.html"
+              <a href="./custom.php" data-page="custom.php">Chỉnh sửa tour</a>
+              <a href="./category.php" data-page="category.php"
                 >Danh mục tour</a
               >
             </div>
@@ -50,13 +50,10 @@
           <section>
             <h5>Quản lý</h5>
             <div class="menu-items">
-              <a href="./customer-list.html" data-page="customer-list.html"
+              <a href="./customer-list.php" data-page="customer-list.php"
                 >Danh sách khách hàng</a
               >
-              <a href="./booking-list.html" data-page="booking-list.html"
-                >Danh sách đặt tour</a
-              >
-              <a href="./feedback.html" data-page="feedback.html">Phản hồi</a>
+              <a href="./feedback.php" data-page="feedback.php">Phản hồi</a>
             </div>
           </section>
           <script>

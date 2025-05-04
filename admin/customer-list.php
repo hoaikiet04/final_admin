@@ -1,3 +1,20 @@
+<?php
+include "connect.php";
+
+// Xử lý trước khi gửi bất kỳ nội dung HTML nào
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_selected']) && !empty($_POST['selected_ids'])) {
+    $ids = implode(',', array_map('intval', $_POST['selected_ids']));
+    $delete_sql = "UPDATE User SET deleted = 1 WHERE id IN ($ids)";
+    
+    if (!mysqli_query($conn, $delete_sql)) {
+        echo "Lỗi truy vấn: " . mysqli_error($conn);
+        exit;
+    }
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -6,13 +23,14 @@
     <!-- link css -->
     <link rel="stylesheet" href="../assets/admin/css/reset.css" />
     <link rel="stylesheet" href="../assets/admin/css/style.css" />
+    <link rel="stylesheet" href="../assets/admin/css/table.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>ADMIN</title>
+    <title>123</title>
   </head>
   <body>
     <navbar class="navbar">
-      <h1>Quản lý hệ thống</h1>
+      <h1><a href="./index.php">Danh sách khách hàng</a></h1>
       <div class="search-bar">
         <input type="text" placeholder="Tìm kiếm cho ..." />
         <button>
@@ -106,54 +124,62 @@
             </div>
           </section>
 
-          <!-- list ảnh banner -->
-          <section class="banner__image">
-            <img
-              src="../assets/admin/image/bg-banner.jpg"
-              alt="bg1"
-              class="custom-banner slide-show"
-            />
-            <img
-              src="../assets/admin/image/bg-banner2.jpg"
-              alt="bg2"
-              class="custom-banner slide-show"
-            />
-            <img
-              src="../assets/admin/image/bg-banner3.jpg"
-              alt="bg3"
-              class="custom-banner slide-show"
-            />
-            <img
-              src="../assets/admin/image/bg-banner4.jpg"
-              alt="bg4"
-              class="custom-banner slide-show"
-            />
+          <!-- Bookings Management Section -->
+          <section class="bookings-container">
 
-            <script>
-              $(document).ready(function () {
-                const $images = $(".slide-show");
-                const total = $images.length;
-                let current = 0;
+          <?php
+            $sql = "SELECT * FROM User WHERE deleted = 0";
+            $result = mysqli_query($conn, $sql);
+          ?>
 
-                function showNext() {
-                  $images.removeClass("active");
-                  current = (current + 1) % total;
-                  $images.eq(current).addClass("active");
-                }
+            <section class="bookings-container">
+              <form method="POST" action="">
+                <div class="bookings-header">
+                  <h2 class="bookings-title">Danh sách người dùng</h2>
+                  <div class="d-flex gap-10">
+                    <button type="submit" name="delete_selected" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa những người dùng đã chọn?');">
+                      Xóa đã chọn
+                    </button>
+                  </div>
+                </div>
 
-                $images.eq(0).addClass("active");
-
-                let interval = setInterval(showNext, 4000);
-
-                document.addEventListener("visibilitychange", function () {
-                  if (document.hidden) {
-                    clearInterval(interval);
-                  } else {
-                    interval = setInterval(showNext, 4000);
+                <table>
+                  <tr>
+                    <th><input type='checkbox' id='checkAll'></th>
+                    <th>STT</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Mật khẩu</th>
+                  </tr>
+                <?php
+                  $stt = 1;
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>
+                            <td><input type='checkbox' name='selected_ids[]' value='" . $row['id'] . "'></td>
+                            <td>" . $stt++ . "</td>
+                            <td>" . htmlspecialchars($row['fullname']) . "</td>
+                            <td>" . htmlspecialchars($row['email']) . "</td>
+                            <td>" . htmlspecialchars($row['phone_number']) . "</td>
+                            <td>" . htmlspecialchars($row['address']) . "</td>
+                            <td>" . htmlspecialchars($row['password']) . "</td>
+                          </tr>";
                   }
-                });
-              });
-            </script>
+                ?>
+                </table>
+              </form>
+
+              <script>
+                document.getElementById('checkAll').onclick = function () {
+                  var checkboxes = document.getElementsByName('selected_ids[]');
+                  for (var checkbox of checkboxes) {
+                    checkbox.checked = this.checked;
+                  }
+                };
+              </script>
+
+
           </section>
         </div>
       </div>

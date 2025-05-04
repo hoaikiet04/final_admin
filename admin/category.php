@@ -1,18 +1,21 @@
+<?php include './connect.php'; // Kết nối cơ sở dữ liệu ?>
+
 <!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- link css -->
-    <link rel="stylesheet" href="./asset/css/reset.css" />
-    <link rel="stylesheet" href="./asset/css/style.css" />
+    <link rel="stylesheet" href="../assets/admin/css/reset.css" />
+    <link rel="stylesheet" href="../assets/admin/css/style.css" />
+    <link rel="stylesheet" href="../assets/admin/css/table.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>ADMIN</title>
+    <title>Danh sách đại điểm</title>
   </head>
   <body>
     <navbar class="navbar">
-      <h1><a href="./index.html">Danh sách tour hiện có</a></h1>
+      <h1><a href="./index.php">Danh sách tour hiện có</a></h1>
       <div class="search-bar">
         <input type="text" placeholder="Tìm kiếm cho ..." />
         <button>
@@ -39,8 +42,8 @@
           <section>
             <h5>Cập nhật tour</h5>
             <div class="menu-items">
-              <a href="./custom.html" data-page="custom.html">Chỉnh sửa tour</a>
-              <a href="./category.html" data-page="category.html"
+              <a href="./custom.php" data-page="custom.php">Chỉnh sửa tour</a>
+              <a href="./category.php" data-page="category.php"
                 >Danh mục tour</a
               >
             </div>
@@ -50,13 +53,10 @@
           <section>
             <h5>Quản lý</h5>
             <div class="menu-items">
-              <a href="./customer-list.html" data-page="customer-list.html"
+              <a href="./customer-list.php" data-page="customer-list.php"
                 >Danh sách khách hàng</a
               >
-              <a href="./booking-list.html" data-page="booking-list.html"
-                >Danh sách đặt tour</a
-              >
-              <a href="./feedback.html" data-page="feedback.html">Phản hồi</a>
+              <a href="./feedback.php" data-page="feedback.php">Phản hồi</a>
             </div>
           </section>
           <script>
@@ -109,7 +109,54 @@
             </div>
           </section>
 
-          <!-- list ảnh banner -->
+          <!-- Danh sách tour hiện có  -->
+          <section class="container__list">
+          <h2>Danh sách địa điểm du lịch</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Thể loại</th>
+                <th>Tiêu đề</th>
+                <th>Mô tả</th>
+                <th>Hình ảnh</th>
+                <th>Địa chỉ</th>
+                <th>Ngày tạo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php 
+              // Truy vấn kết hợp Detail với Category
+              $sql = "SELECT d.id, c.name AS category_name, d.title, d.description, d.thumbnail, d.address, d.created_at
+                      FROM Detail d
+                      JOIN Category c ON d.category_id = c.id
+                      WHERE d.deleted = 0
+                      ORDER BY d.created_at DESC";
+
+              $result = $conn->query($sql);
+              
+              // Kiểm tra kết quả truy vấn
+              if ($result->num_rows > 0) {
+                  $stt = 1;
+                  while ($row = $result->fetch_assoc()) {
+                      echo "<tr>";
+                      echo "<td>" . $stt++ . "</td>";
+                      echo "<td>" . htmlspecialchars($row['category_name']) . "</td>";
+                      echo "<td>" . htmlspecialchars($row['title']) . "</td>";
+                      echo "<td>" . nl2br(htmlspecialchars($row['description'])) . "</td>";
+                      echo "<td><img src='../assets/admin/image/" . htmlspecialchars($row['thumbnail']) . "' alt='Ảnh' class='thumbnail'></td>";
+                      echo "<td>" . htmlspecialchars($row['address']) . "</td>";
+                      echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
+                      echo "</tr>";
+                  }
+              } else {
+                  echo "<tr><td colspan='7'>Không có dữ liệu.</td></tr>";
+              }
+              $conn->close();
+              ?>
+            </tbody>
+          </table>
+          </section>
         </div>
       </div>
     </main>
