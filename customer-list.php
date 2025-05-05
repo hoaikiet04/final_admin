@@ -6,8 +6,8 @@
     <!-- link css -->
     <link rel="stylesheet" href="./assets/css/reset.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <link rel="stylesheet" href="./assets/css/table.css" />
-    <link rel="stylesheet" href="./assets/css/total_section.css" />
+    <link rel="stylesheet" href="./assets/css/table.css?v=<?= time(); ?>" />
+    <link rel="stylesheet" href="./assets/css/total_section.css?v=<?= time(); ?>" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Danh sách người dùng</title>
@@ -125,8 +125,6 @@
                   <th>STT</th>
                   <th>Họ tên</th>
                   <th>Email</th>
-                  <th>Số điện thoại</th>
-                  <th>Địa chỉ</th>
                   <th>Mật khẩu</th>
                 </tr>
                 <?php
@@ -137,9 +135,7 @@
                             <td>" . $stt++ . "</td>
                             <td>" . htmlspecialchars($row['fullname']) . "</td>
                             <td>" . htmlspecialchars($row['email']) . "</td>
-                            <td>" . htmlspecialchars($row['phone_number']) . "</td>
-                            <td>" . htmlspecialchars($row['address']) . "</td>
-                            <td>" . htmlspecialchars($row['password']) . "</td>
+                            <td class='ellipsis'>" . htmlspecialchars($row['password']) . "</td>
                           </tr>";
                   }
                 ?>
