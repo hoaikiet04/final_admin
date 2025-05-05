@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- link css -->
-    <link rel="stylesheet" href="../assets/admin/css/reset.css" />
-    <link rel="stylesheet" href="../assets/admin/css/style.css" />
-    <link rel="stylesheet" href="../assets/admin/css/total_section.css" />
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/table.css" />
+    <link rel="stylesheet" href="./assets/css/total_section.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>ADMIN</title>
+    <title>Danh sách người dùng</title>
   </head>
   <body>
     <navbar class="navbar">
-      <h1>Quản lý hệ thống</h1>
+      <h1><a href="./index.php">Danh sách khách hàng</a></h1>
       <div class="search-bar">
         <input type="text" placeholder="Tìm kiếm cho ..." />
         <button>
@@ -103,54 +104,71 @@
             </div>
           </section>
 
-          <!-- list ảnh banner -->
-          <section class="banner__image">
-            <img
-              src="../assets/admin/image/bg-banner.jpg"
-              alt="bg1"
-              class="custom-banner slide-show"
-            />
-            <img
-              src="../assets/admin/image/bg-banner2.jpg"
-              alt="bg2"
-              class="custom-banner slide-show"
-            />
-            <img
-              src="../assets/admin/image/bg-banner3.jpg"
-              alt="bg3"
-              class="custom-banner slide-show"
-            />
-            <img
-              src="../assets/admin/image/bg-banner4.jpg"
-              alt="bg4"
-              class="custom-banner slide-show"
-            />
+          <!-- Bookings Management Section -->
+          <section class="bookings-container">
+
+          <?php
+            include "./connect.php";
+            $sql = "SELECT * FROM users WHERE deleted = 0";
+            $result = mysqli_query($conn, $sql);
+          ?>
+
+            <section class="bookings-container">
+            <form id="delete-users-form">
+              <div class="bookings-header">
+                <h2 class="bookings-title">Danh sách người dùng</h2>
+              </div>
+
+              <table>
+                <tr>
+                  <th>Xóa</th>
+                  <th>STT</th>
+                  <th>Họ tên</th>
+                  <th>Email</th>
+                  <th>Số điện thoại</th>
+                  <th>Địa chỉ</th>
+                  <th>Mật khẩu</th>
+                </tr>
+                <?php
+                  $stt = 1;
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr id='user-{$row['id']}'>
+                            <td><button class='btn btn-danger btn-delete-user' data-id='{$row['id']}'>Xóa</button></td>
+                            <td>" . $stt++ . "</td>
+                            <td>" . htmlspecialchars($row['fullname']) . "</td>
+                            <td>" . htmlspecialchars($row['email']) . "</td>
+                            <td>" . htmlspecialchars($row['phone_number']) . "</td>
+                            <td>" . htmlspecialchars($row['address']) . "</td>
+                            <td>" . htmlspecialchars($row['password']) . "</td>
+                          </tr>";
+                  }
+                ?>
+              </table>
+            </form>
 
             <script>
-              $(document).ready(function () {
-                const $images = $(".slide-show");
-                const total = $images.length;
-                let current = 0;
+              $(document).on("click", ".btn-delete-user", function () {
+                const userId = $(this).data("id");
+                if (!confirm("Bạn có chắc chắn muốn xóa người dùng này?")) return;
 
-                function showNext() {
-                  $images.removeClass("active");
-                  current = (current + 1) % total;
-                  $images.eq(current).addClass("active");
-                }
-
-                $images.eq(0).addClass("active");
-
-                let interval = setInterval(showNext, 4000);
-
-                document.addEventListener("visibilitychange", function () {
-                  if (document.hidden) {
-                    clearInterval(interval);
-                  } else {
-                    interval = setInterval(showNext, 4000);
-                  }
+                $.ajax({
+                  url: "delete_user.php",
+                  method: "POST",
+                  data: { id: userId },
+                  success: function (res) {
+                    if (res.trim() === "success") {
+                      $("#user-" + userId).remove();
+                    } else {
+                      alert("Xóa thất bại.");
+                    }
+                  },
+                  error: function () {
+                    alert("Lỗi kết nối đến máy chủ.");
+                  },
                 });
               });
             </script>
+
           </section>
         </div>
       </div>

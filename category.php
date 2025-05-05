@@ -6,10 +6,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- link css -->
-    <link rel="stylesheet" href="../assets/admin/css/reset.css" />
-    <link rel="stylesheet" href="../assets/admin/css/style.css" />
-    <link rel="stylesheet" href="../assets/admin/css/table.css" />
-    <link rel="stylesheet" href="../assets/admin/css/total_section.css" />
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/table.css" />
+    <link rel="stylesheet" href="./assets/css/total_section.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Danh sách đại điểm</title>
@@ -125,7 +125,7 @@
               <?php 
               // Truy vấn kết hợp Detail với Category
               $sql = "SELECT d.id, c.name AS category_name, d.title, d.description, d.thumbnail, d.address, d.created_at
-                      FROM Detail d
+                      FROM tours d
                       JOIN Category c ON d.category_id = c.id
                       WHERE d.deleted = 0
                       ORDER BY d.created_at DESC";
@@ -141,7 +141,7 @@
                       echo "<td>" . htmlspecialchars($row['category_name']) . "</td>";
                       echo "<td>" . htmlspecialchars($row['title']) . "</td>";
                       echo "<td>" . nl2br(htmlspecialchars($row['description'])) . "</td>";
-                      echo "<td><img src='../assets/admin/image/" . htmlspecialchars($row['thumbnail']) . "' alt='Ảnh' class='thumbnail'></td>";
+                      echo "<td><img src='./assets/image/" . htmlspecialchars($row['thumbnail']) . "' alt='Ảnh' class='thumbnail'></td>";
                       echo "<td>" . htmlspecialchars($row['address']) . "</td>";
                       echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
                       echo "</tr>";

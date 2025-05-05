@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- link css -->
-    <link rel="stylesheet" href="../assets/admin/css/reset.css" />
-    <link rel="stylesheet" href="../assets/admin/css/style.css" />
-    <link rel="stylesheet" href="../assets/admin/css/table.css" />
-    <link rel="stylesheet" href="../assets/admin/css/total_section.css" />
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/table.css" />
+    <link rel="stylesheet" href="./assets/css/total_section.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Feedback</title>

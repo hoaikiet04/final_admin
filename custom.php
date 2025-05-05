@@ -5,10 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- link css -->
-    <link rel="stylesheet" href="../assets/admin/css/reset.css" />
-    <link rel="stylesheet" href="../assets/admin/css/style.css" />
-    <link rel="stylesheet" href="../assets/admin/css/custom.css" />
-    <link rel="stylesheet" href="../assets/admin/css/total_section.css" />
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/table.css" />
+    <link rel="stylesheet" href="./assets/css/total_section.css" />
     <!-- link jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Thêm sửa xóa</title>
@@ -115,7 +115,7 @@
             </div>
             
             <?php
-            include "connect.php";
+            include "./connect.php";
 
             if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                 $category_id = $_POST['category_id'];
@@ -125,10 +125,10 @@
 
                 $image = $_FILES['thumbnail']['name'];
                 $image_tmp = $_FILES['thumbnail']['tmp_name'];
-                $upload_dir = "../assets/admin/image/";
+                $upload_dir = "./assets/image/";
 
                 if (move_uploaded_file($image_tmp, $upload_dir . $image)) {
-                    $sql = "INSERT INTO Detail (category_id, title, description, thumbnail, address) 
+                    $sql = "INSERT INTO tours (category_id, title, description, thumbnail, address) 
                             VALUES ('$category_id', '$title', '$description', '$image', '$address')";
                     mysqli_query($conn, $sql);
                 }
@@ -175,10 +175,10 @@
             <?php
             include "./connect.php";
 
-            $sql = "SELECT Detail.id, Detail.title, Detail.thumbnail, Detail.address, Category.name AS category_name
-                    FROM Detail
-                    JOIN Category ON Detail.category_id = Category.id
-                    WHERE Detail.deleted = 0";
+            $sql = "SELECT tours.id, tours.title, tours.thumbnail, tours.address, Category.name AS category_name
+                    FROM tours
+                    JOIN Category ON tours.category_id = Category.id
+                    WHERE tours.deleted = 0";
 
             $result = mysqli_query($conn, $sql);
             ?>
@@ -186,7 +186,7 @@
             <div class="tours-grid" id="tours-container">
             <?php while ($row = mysqli_fetch_assoc($result)) : ?>
               <div class="tour-card" id="tour-<?= $row['id'] ?>">
-                <img src="../assets/admin/image/<?= htmlspecialchars($row['thumbnail']) ?>" alt="<?= htmlspecialchars($row['title']) ?>" class="tour-image" />
+                <img src="./assets/image/<?= htmlspecialchars($row['thumbnail']) ?>" alt="<?= htmlspecialchars($row['title']) ?>" class="tour-image" />
                 <div class="tour-info">
                   <h3 class="tour-title"><?= htmlspecialchars($row['title']) ?></h3>
                   <p class="tour-location"><?= htmlspecialchars($row['address']) ?></p>
