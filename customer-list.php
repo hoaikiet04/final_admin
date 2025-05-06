@@ -14,7 +14,7 @@
   </head>
   <body>
     <navbar class="navbar">
-      <h1><a href="./index.php">Danh sách khách hàng</a></h1>
+      <h1><a href="./index.php">Danh sách người dùng</a></h1>
       <div class="search-bar">
         <input type="text" placeholder="Tìm kiếm cho ..." />
         <button>
@@ -53,7 +53,7 @@
             <h5>Quản lý</h5>
             <div class="menu-items">
               <a href="./customer-list.php" data-page="customer-list.php"
-                >Danh sách khách hàng</a
+                >Người dùng</a
               >
               <a href="./feedback.php" data-page="feedback.php">Phản hồi</a>
             </div>
@@ -78,7 +78,7 @@
             <div class="total__item">
               <div class="total__card">
                 <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Globe Icon" class="total__icon" />
-                <h5>Khám phá thế giới cùng chúng tôi!</h5>
+                <h5>Khám phá Việt Nam cùng chúng tôi!</h5>
               </div>
             </div>
 
@@ -92,7 +92,7 @@
             <div class="total__item">
               <div class="total__card">
                 <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" alt="Order Icon" class="total__icon" />
-                <h5>Đặt tour dễ dàng, nhanh chóng</h5>
+                <h5>Tìm kiếm tour dễ dàng, nhanh chóng</h5>
               </div>
             </div>
 
