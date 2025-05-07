@@ -93,6 +93,18 @@ a {
 .navbar h1 a {
   color: #fff;
 }
+
+.fa-solid {
+  font-size: 2rem;
+  margin-right: 10px;
+  color: #fff;
+}
+
+.inner-user-auth a {
+  color: #fff;
+  font-size: 1.6rem;
+  margin-left: 20px;
+}
 /* ================== sidebar ================== */
 .sidebar {
   width: 20rem;
@@ -485,7 +497,7 @@ textarea.form-control {
   background-color: #cce5ff;
   color: #004085;
 }
-/* ================ table =============== */
+/* ================ ADD TOUR =============== */
 
 .content-header {
   text-align: center;
@@ -551,4 +563,87 @@ textarea.form-control {
 
 #add-tour-form button[type="submit"]:hover {
   background-color: #1e70d1;
+}
+
+/* =============== EDIT TABLE  =============== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+thead {
+  background-color: #f8f8f8;
+}
+th {
+  border: 1px solid #000;
+  font-weight: bold;
+  padding: 12px;
+  text-align: center;
+  vertical-align: top;
+}
+td {
+  border: 1px solid #000;
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background-color: #f0f0f0;
+}
+tr:hover {
+  background-color: #f9f9f9;
+}
+img.thumbnail {
+  max-width: 100px;
+  height: auto;
+  border-radius: 4px;
+}
+.container__list {
+  max-width: 1200px;
+  margin: auto;
+}
+h2 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+.ellipsis {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* ================== total section ================== */
+.aesthetic-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 30px 0;
+  background: #f8f9fa;
+}
+
+.total__item {
+  flex: 1 1 200px;
+  max-width: 240px;
+}
+
+.total__card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.total__card:hover {
+  transform: translateY(-5px);
+}
+
+.total__icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 12px;
 }
